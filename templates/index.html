@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>InvoiceFlow — Free Invoice Generator</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+<body>
+
+  <!-- ══════════════════════════════════════
+       LANDING PAGE
+  ══════════════════════════════════════ -->
+  <div id="landingPage" class="landing">
+
+    <!-- Navbar -->
+    <nav class="land-nav">
+      <div class="logo">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+          <rect width="28" height="28" rx="6" fill="#2563EB"/>
+          <path d="M7 8h14M7 12h10M7 16h12M7 20h8" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <span>InvoiceFlow</span>
+      </div>
+      <button class="btn-primary" id="landingCreateBtn">Create Invoice →</button>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero-badge">✦ 100% Free · No Login Required</div>
+      <h1 class="hero-title">
+        Professional Invoices<br/>
+        <span class="hero-accent">in Minutes</span>
+      </h1>
+      <p class="hero-sub">
+        Create GST-ready invoices with auto-calculated taxes, live preview,<br/>
+        and instant A4 PDF download — no signup, no fees.
+      </p>
+      <div class="hero-cta">
+        <button class="btn-hero" id="heroCreateBtn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="12" y1="18" x2="12" y2="12"/>
+            <line x1="9" y1="15" x2="15" y2="15"/>
+          </svg>
+          Create Invoice — Free
+        </button>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section class="features">
+      <div class="feat-card">
+        <div class="feat-icon">⚡</div>
+        <h3>4-Step Wizard</h3>
+        <p>Simple guided flow — seller, customer, items, done.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">🧾</div>
+        <h3>GST Ready</h3>
+        <p>Auto-calculate GST per item. Supports all Indian states & UTs.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">👁️</div>
+        <h3>Live Preview</h3>
+        <p>See your invoice update in real-time before downloading.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">📄</div>
+        <h3>PDF Download</h3>
+        <p>Professional A4 PDF, ready to send to your clients instantly.</p>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="land-footer">
+      Made with ♥ · InvoiceFlow © 2026
+    </footer>
+  </div>
+
+
+  <!-- ══════════════════════════════════════
+       WIZARD APP
+  ══════════════════════════════════════ -->
+  <div id="appPage" class="app-hidden">
+
+    <!-- Top Progress Bar -->
+    <div class="progress-bar-track">
+      <div class="progress-bar-fill" id="progressFill"></div>
+    </div>
+
+    <div class="app-shell">
+
+      <!-- Header -->
+      <header class="app-header">
+        <div class="logo" id="backToLanding" style="cursor:pointer" title="Back to home">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+            <rect width="28" height="28" rx="6" fill="#2563EB"/>
+            <path d="M7 8h14M7 12h10M7 16h12M7 20h8" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <span>InvoiceFlow</span>
+        </div>
+        <div class="step-label" id="stepLabel">Step 1 of 4</div>
+      </header>
+
+      <!-- Wizard -->
+      <main class="wizard-container">
+
+        <!-- Step indicators -->
+        <div class="step-indicators">
+          <div class="step-dot active" data-step="1">
+            <span class="dot-icon">1</span>
+            <span class="dot-label">Seller</span>
+          </div>
+          <div class="step-connector"></div>
+          <div class="step-dot" data-step="2">
+            <span class="dot-icon">2</span>
+            <span class="dot-label">Customer</span>
+          </div>
+          <div class="step-connector"></div>
+          <div class="step-dot" data-step="3">
+            <span class="dot-icon">3</span>
+            <span class="dot-label">Items</span>
+          </div>
+          <div class="step-connector"></div>
+          <div class="step-dot" data-step="4">
+            <span class="dot-icon">4</span>
+            <span class="dot-label">Review</span>
+          </div>
+        </div>
+
+        <div class="wizard-body">
+
+          <!-- Step 1: Seller -->
+          <section class="step-panel active" id="step1">
+            <h2 class="panel-title">Seller Details</h2>
+            <div class="form-grid">
+              <div class="field full">
+                <label>Business / Seller Name <span class="req">*</span></label>
+                <input type="text" id="sellerName" placeholder="Your Business Name" />
+                <span class="err" id="err-sellerName"></span>
+              </div>
+              <div class="field">
+                <label>Phone <span class="req">*</span></label>
+                <input type="tel" id="sellerPhone" placeholder="+91 98765 43210" />
+                <span class="err" id="err-sellerPhone"></span>
+              </div>
+              <div class="field">
+                <label>Email</label>
+                <input type="email" id="sellerEmail" placeholder="you@business.com" />
+                <span class="err" id="err-sellerEmail"></span>
+              </div>
+              <div class="field full">
+                <label>Address <span class="req">*</span></label>
+                <textarea id="sellerAddress" rows="2" placeholder="Street, City, PIN"></textarea>
+                <span class="err" id="err-sellerAddress"></span>
+              </div>
+              <div class="field">
+                <label>GST Number</label>
+                <input type="text" id="sellerGST" placeholder="22AAAAA0000A1Z5" maxlength="15" />
+              </div>
+              <div class="field">
+                <label>Invoice Number</label>
+                <input type="text" id="invoiceNumber" readonly class="readonly-field" />
+              </div>
+              <div class="field">
+                <label>Invoice Date <span class="req">*</span></label>
+                <input type="date" id="invoiceDate" />
+                <span class="err" id="err-invoiceDate"></span>
+              </div>
+              <div class="field">
+                <label>Due Date <span class="req">*</span></label>
+                <input type="date" id="dueDate" />
+                <span class="err" id="err-dueDate"></span>
+              </div>
+            </div>
+          </section>
+
+          <!-- Step 2: Customer -->
+          <section class="step-panel" id="step2">
+            <h2 class="panel-title">Customer Details</h2>
+            <div class="form-grid">
+              <div class="field full">
+                <label>Customer / Company Name <span class="req">*</span></label>
+                <input type="text" id="customerName" placeholder="Acme Pvt. Ltd." />
+                <span class="err" id="err-customerName"></span>
+              </div>
+              <div class="field">
+                <label>Phone <span class="req">*</span></label>
+                <input type="tel" id="customerPhone" placeholder="+91 98765 43210" />
+                <span class="err" id="err-customerPhone"></span>
+              </div>
+              <div class="field">
+                <label>Email</label>
+                <input type="email" id="customerEmail" placeholder="billing@acme.com" />
+                <span class="err" id="err-customerEmail"></span>
+              </div>
+              <div class="field full">
+                <label>Address <span class="req">*</span></label>
+                <textarea id="customerAddress" rows="2" placeholder="Street, City, PIN"></textarea>
+                <span class="err" id="err-customerAddress"></span>
+              </div>
+              <div class="field">
+                <label>State <span class="req">*</span></label>
+                <select id="customerState">
+                  <option value="">— Select State —</option>
+                  <option>Andhra Pradesh</option><option>Arunachal Pradesh</option>
+                  <option>Assam</option><option>Bihar</option><option>Chhattisgarh</option>
+                  <option>Goa</option><option>Gujarat</option><option>Haryana</option>
+                  <option>Himachal Pradesh</option><option>Jharkhand</option>
+                  <option>Karnataka</option><option>Kerala</option>
+                  <option>Madhya Pradesh</option><option>Maharashtra</option>
+                  <option>Manipur</option><option>Meghalaya</option><option>Mizoram</option>
+                  <option>Nagaland</option><option>Odisha</option><option>Punjab</option>
+                  <option>Rajasthan</option><option>Sikkim</option><option>Tamil Nadu</option>
+                  <option>Telangana</option><option>Tripura</option><option>Uttar Pradesh</option>
+                  <option>Uttarakhand</option><option>West Bengal</option>
+                  <optgroup label="Union Territories">
+                    <option>Andaman and Nicobar Islands</option>
+                    <option>Chandigarh</option>
+                    <option>Dadra and Nagar Haveli and Daman and Diu</option>
+                    <option>Delhi</option><option>Jammu and Kashmir</option>
+                    <option>Ladakh</option><option>Lakshadweep</option><option>Puducherry</option>
+                  </optgroup>
+                </select>
+                <span class="err" id="err-customerState"></span>
+              </div>
+              <div class="field">
+                <label>GST Number</label>
+                <input type="text" id="customerGST" placeholder="Optional" maxlength="15" />
+              </div>
+            </div>
+          </section>
+
+          <!-- Step 3: Items -->
+          <section class="step-panel" id="step3">
+            <h2 class="panel-title">Line Items</h2>
+            <div class="items-table-wrap">
+              <table class="items-table" id="itemsTable">
+                <thead>
+                  <tr>
+                    <th>Item Name</th><th>Qty</th>
+                    <th>Unit Price (₹)</th><th>Tax %</th>
+                    <th>Amount</th><th></th>
+                  </tr>
+                </thead>
+                <tbody id="itemsBody"></tbody>
+              </table>
+            </div>
+            <button class="btn-ghost" id="addItemBtn" type="button">+ Add Item</button>
+            <span class="err" id="err-items"></span>
+            <div class="totals-row">
+              <div class="totals-box">
+                <div class="total-line"><span>Subtotal</span><span id="subtotal">₹0.00</span></div>
+                <div class="total-line"><span>GST</span><span id="gstTotal">₹0.00</span></div>
+                <div class="total-line grand"><span>Grand Total</span><span id="grandTotal">₹0.00</span></div>
+              </div>
+            </div>
+            <div class="field full" style="margin-top:1.5rem">
+              <label>Notes / Terms (optional)</label>
+              <textarea id="notes" rows="3" placeholder="Payment terms, bank details, thank-you note…"></textarea>
+            </div>
+          </section>
+
+          <!-- Step 4: Preview -->
+          <section class="step-panel" id="step4">
+            <h2 class="panel-title">Invoice Preview</h2>
+            <div id="invoicePreview" class="invoice-preview"></div>
+            <div class="preview-actions">
+              <button class="btn-primary" id="downloadPdfBtn" type="button">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                  <polyline points="7 10 12 15 17 10"/>
+                  <line x1="12" y1="15" x2="12" y2="3"/>
+                </svg>
+                Download PDF
+              </button>
+            </div>
+            <!-- PDF error box -->
+            <div id="pdfError" class="pdf-error" style="display:none"></div>
+          </section>
+
+        </div><!-- /wizard-body -->
+
+        <!-- Nav buttons -->
+        <div class="nav-buttons">
+          <button class="btn-ghost" id="prevBtn" type="button" style="display:none">← Back</button>
+          <button class="btn-primary" id="nextBtn" type="button">Next →</button>
+        </div>
+
+      </main>
+    </div><!-- /app-shell -->
+  </div><!-- /appPage -->
+
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
